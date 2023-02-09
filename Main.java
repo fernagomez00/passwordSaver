@@ -9,6 +9,6 @@ Code, Compile, Run and Debug online from anywhere in world.
 public class Main
 {
 	public static void main(String[] args) {
-		Profile p = new Profile("test","1234");
+		Profile p = new Profile("Fernando","1234");
 	}
 }
