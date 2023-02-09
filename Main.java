@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /******************************************************************************
 
 Welcome to GDB Online.
@@ -8,7 +10,10 @@ Code, Compile, Run and Debug online from anywhere in world.
 *******************************************************************************/
 public class Main
 {
-	public static void main(String[] args) {
-		Profile p = new Profile("Fernando","1234");
+	public static void main(String[] args) throws Exception {
+		// Profile p = new Profile("Fernando","1234");
+		PProfile p = new PProfile("https//:test.com", "user1", "test12345");
+
+		System.out.println(p);
 	}
 }

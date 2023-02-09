@@ -1,26 +1,45 @@
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.SecureRandom;
 import java.util.Base64;
 public class Encrypter{
     
     private Password toBeEncrypted;
     private String Encrypted = "";
     private static final String ALGORITHM = "AES";
-    private static final int KEY_SIZE = 128;
+    private static final int KEY_SIZE = 256;
     private SecretKey secretKey;
     
     public Encrypter(Password toBeEncrypted){
         this.toBeEncrypted = toBeEncrypted;
         try{
             Encrypted = encrypt(this.toBeEncrypted.password);
+            System.out.println("Encrypted Password: " + toBeEncrypted.password + " -- Encrypted: " + Encrypted);
             toBeEncrypted.password = Encrypted;
             toBeEncrypted.setKey(secretKey);
             
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public Encrypter(String toBeEncrypted){
+        
+        try{
+
+            Encrypted = encrypt(toBeEncrypted);
+            System.out.println("Encrypted Password: " + toBeEncrypted + " -- Encrypted: " + Encrypted);
+            toBeEncrypted = Encrypted;
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Encrypter(){}
+
+    public SecretKey key(){
+        return secretKey;
     }
 
     public String encrypt(String plainText) throws Exception {
