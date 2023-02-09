@@ -6,7 +6,8 @@ public class Profile{
     public String name;
     private String pin;
     private Database profileDatabase;
-    private File signin = new File("signins.txt");
+    private File profile = new File("profile.txt");
+    private File list;
     
     public Profile(String name, String pin){
         System.out.println("--New Profile--");
@@ -29,8 +30,9 @@ public class Profile{
         profileDatabase = new Database();
     }
     
-    public Profile(File signin){
-        this.signin = signin;
+    public Profile(File profile, File list){
+        this.profile = profile;
+        this.list = list;
     }
     
     private Database getDatabase(){
