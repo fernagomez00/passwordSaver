@@ -12,6 +12,10 @@ public class Password{
         this.key = key;
     }
     
+    public SecretKey getKey(){
+        return key;
+    }
+    
     public String toString(){
         return password;   
     }
