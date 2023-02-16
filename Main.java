@@ -1,19 +1,23 @@
+package passwordSaver;
 import java.io.IOException;
-
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
+import java.util.Scanner;
 public class Main
 {
 	public static void main(String[] args) throws Exception {
-		// Profile p = new Profile("Fernando","1234");
-		PProfile p = new PProfile("https//:test.com", "user1", "test12345");
+		 Profile p = new Profile("Fernando","1234");
+		// PProfile p = new PProfile("https//:test.com", "user1", "test12345");
+//		Encrypter e = new Encrypter();
+//
+//		String test1 = "test12345";
+//		String test2 = "test112334667";
+//		String test3 = "test739184543";
+		
+		
+		
 
-		System.out.println(p);
+//		System.out.println("test1: "+e.encrypt(test1) + " | KEY: " + e.key() + " |--->" + e.decrypt(test1, e.key()));
+//		System.out.println("test2: "+e.encrypt(test2) + " | KEY: " + e.key() + " |--->" + e.decrypt(test2, e.key()));
+//		System.out.println("test3: "+e.encrypt(test3) + " | KEY: " + e.key() + " |--->" + e.decrypt(test3, e.key()));
+		// System.out.println(p);
 	}
 }
