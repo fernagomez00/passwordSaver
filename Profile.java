@@ -21,69 +21,37 @@ public class Profile{
     private File folder;
     
     public Profile(String name, String pin) throws Exception{
-        
-        this.name = name;
-        this.pin = pin;
-        Encrypter e = new Encrypter(this.name);
-        e = new Encrypter(this.pin);
-
+        Encrypter e = new Encrypter();
+        this.name = e.encrypt(name);
+        Serializer.serialize(e.key);
+        this.pin = e.encrypt(pin);
+        Serializer.serialize(e.key);
         System.out.println(name + " : " + pin);
-        
-        BufferedReader myReader = new BufferedReader(new FileReader(profiles));
-        
-        
-        String containsProfiles = "";
-        while(myReader.readLine()!=null) {
-        	
-        	
-        	BufferedReader myReader2 = new BufferedReader(new FileReader(keys));
-            String[] keys = myReader2.readLine().split(",");
-            
-            for(String a : keys){
-                
+        //need to implement serializer to find returning profiles
+        boolean returning = false;
+        Profile containsProfiles;
+        while(Serlizer.readProfileDatabin != null){
+            if(returning == true){break;}
+            while(Serlizer.readSKDatabin != null){
                 try{
-                	String[] bytes1 = new String[a.length()];
-                	byte[] bytes = new byte[a.length()];
-                	int count = 0;
-                	
-                	for(Character c : a.toCharArray()) {
-                		System.out.print(c.toString());
-                		bytes1[count] = c.toString();
-                		count++;
-                	}
-                	count = 0;
-                	for(String a1 : bytes1) {
-                		
-           
-                		count++;
-                	}
-                	
-                    // decode the base64 encoded string
-                    // rebuild key using SecretKeySpec
-                    SecretKey originalKey = new SecretKeySpec(bytes, "AES"); 
-                    System.out.println("Original key:"+originalKey +"\nDecrypted: " + e.decrypt(containsProfiles, originalKey));
-                    containsProfiles = e.decrypt(containsProfiles, originalKey);
-                    
-                }catch(Exception t){
-                    System.err.println("ERROR IN CHECK FOR RETURNING PROFILES: "+t.getMessage() + " | " + t.getCause());
+
+                }catch(Exception error){
+                    System.out.println(error.printStackTrace());
                 }
                 
-            }
-            
+            }    
         }
-        myReader.close();
         System.out.println(containsProfiles.contains("Profile: " + name + " = " + pin) + "|" + containsProfiles);
         //need to add a loop to search for multiple profiles
-        if(containsProfiles.contains("Profile: " + name + " = " + pin) == true){
-            System.out.println("Returning Profile");
-            System.out.println(containsProfiles);
+        if(returning == true){
+            System.out.println("Welcome Back " + name + "!");
         }
         else{
             System.out.println("--New Profile--");
             try {
 //            	myReader = new BufferedReader(new FileReader(profiles));
 //            	while(myReader.readLine() != null) {}
-                newProfile(e);
+                newProfile();
                 
             } catch (IOException e1) {
                 System.out.println("An error occurred.");
@@ -92,44 +60,43 @@ public class Profile{
         }
 
 
-        myReader.close();
+        // myReader.close();
 
         profileDatabase = new Database();
     }
 
-    private void newProfile(Encrypter e) throws Exception{
-        		folder = new File(dir+"/Profile-" + name);
-                System.out.println("Folder Creation: "+folder.mkdir());
-                String key1 = "";
-                File profile = new File(folder,"profile" + name + ".txt");
-                FileWriter myWriter = new FileWriter("/"+profile);
-                myWriter.append(e.encrypt(name+","));
-                key1 += e.key().getEncoded() + ",";
-                myWriter.append(e.encrypt(pin+","));
-                key1 += e.key().getEncoded() + ",";
-                myWriter.append(e.encrypt("passwords" + name +".txt"));
-                key1 += e.key().getEncoded() + ",";
-                list = new File(folder,"passwords" + name + ".txt");
-                myWriter.close();
-                myWriter = new FileWriter(list);
-                myWriter.append("no data");
-                myWriter.close();
-                myWriter = new FileWriter(profiles);
-                myWriter.append(e.encrypt("Profile: " + name + " = " + pin)+"\n");
-                key1 += e.key().getEncoded();
-                myWriter.close();
-                myWriter = new FileWriter(this.keys);
-                myWriter.append(key1+"\n");
-                myWriter.close();
+    private void newProfile() throws Exception{
+        		// folder = new File(dir+"/Profile-" + name);
+                // System.out.println("Folder Creation: "+folder.mkdir());
+                // String key1 = "";
+                // File profile = new File(folder,"profile" + name + ".txt");
+                // FileWriter myWriter = new FileWriter("/"+profile);
+                // myWriter.append(e.encrypt(name+","));
+                // key1 += e.key().getEncoded() + ",";
+                // myWriter.append(e.encrypt(pin+","));
+                // key1 += e.key().getEncoded() + ",";
+                // myWriter.append(e.encrypt("passwords" + name +".txt"));
+                // key1 += e.key().getEncoded() + ",";
+                // list = new File(folder,"passwords" + name + ".txt");
+                // myWriter.close();
+                // myWriter = new FileWriter(list);
+                // myWriter.append("no data");
+                // myWriter.close();
+                // myWriter = new FileWriter(profiles);
+                // myWriter.append(e.encrypt("Profile: " + name + " = " + pin)+"\n");
+                // key1 += e.key().getEncoded();
+                // myWriter.close();
+                // myWriter = new FileWriter(this.keys);
+                // myWriter.append(key1+"\n");
+                // myWriter.close();
+                Serializer.serialize(this.profile);
                 
-                System.out.println("Successfully wrote to the files.");
+
+                
+                System.out.println("Successfully Serialized.");
     }
 
-    private void wr(File f, boolean b){
-        f.setReadable(b);
-        f.setWritable(b);
-    }
-
+    //need to use this once this classes above functions are completed for more security
     private void readable(boolean b){
         folder.setReadable(b);
         list.setReadable(b);

@@ -40,10 +40,6 @@ public class Encrypter{
 
     public Encrypter(){}
 
-    public SecretKey key(){
-        return secretKey;
-    }
-
     public String encrypt(String plainText) throws Exception {
         KeyGenerator kg = KeyGenerator.getInstance(ALGORITHM);
         kg.init(KEY_SIZE);

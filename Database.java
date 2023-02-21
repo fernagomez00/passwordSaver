@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 public class Database{
-    
+    //need to update this class to be in line with serialization
     private File keys = new File("keys.txt");
     private HashMap<PProfile, Password> database = new HashMap<>();
     private File profile;
@@ -48,6 +48,7 @@ public class Database{
         return key + " Password--> " + database.get(key);
     }
     
+    //need to change the hashmap as PProfile's contains the passwords already
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
