@@ -1,7 +1,11 @@
 package passwordSaver;
-public class PProfile extends Password{
+
+import java.io.Serializable;
+
+public class PProfile extends Password implements Serializable{
     
-    public String website;
+    private static final long serialVersionUID = 1L;
+	public String website;
     public String username;
 
     public PProfile(String pw){

@@ -4,7 +4,11 @@ import java.util.Scanner;
 public class Main
 {
 	public static void main(String[] args) throws Exception {
-		 Profile p = new Profile("Fernando","1234");
+		PS.login();
+//		 Profile p = new Profile("Fernando","1234");
+//		 Profile p1 = new Profile("Dan","4321");
+//		 Profile p2 = new Profile("Rick","5463");
+		 
 		// PProfile p = new PProfile("https//:test.com", "user1", "test12345");
 //		Encrypter e = new Encrypter();
 //

@@ -1,8 +1,11 @@
 package passwordSaver;
+import java.io.Serializable;
+
 import javax.crypto.SecretKey;
-public class Password{
+public class Password implements Serializable{
     
-    public String password;
+    private static final long serialVersionUID = 1L;
+	public String password;
     private SecretKey key;
     
     public Password(String password){
