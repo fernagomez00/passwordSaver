@@ -13,65 +13,90 @@ public class Profile implements Serializable{
 	private final File skbin = new File(System.getProperty("user.dir")+"\\SKdata.bin");
 	public String name;
     public String pin;
-    private Database profileDatabase;
+    public Database profileDatabase;
     public boolean newProfile = true;
     public SecretKey pinKey;
     
-    public Profile() {profileDatabase = new Database();}
+    public Profile() {}
     public Profile(String name, String pin) {this.name = name; this.pin = pin;}
+    public Profile(String name, String pin, Database database) {this.name = name; this.pin = pin; profileDatabase = database;}
     
-    public Profile findProfile(String name, String pin) throws Exception{this.name = name; this.pin = pin;
-    	
-    	Encrypter e = new Encrypter();
-//        System.out.println(name + " : " + pin);
-        
-        boolean returning = false;
-        
-        Profile containsProfiles = null;
-        try(ObjectInputStream ois1 = new ObjectInputStream(new FileInputStream("Profiledata.bin"))){
-        	try{
-        		containsProfiles = (Profile)ois1.readObject();
-        		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("SKdata.bin"))) {
-        		    while (true) {
-        		        SecretKey sk = (SecretKey) ois.readObject();
-        		        if (sk == null) {break;}
-        		        if ((containsProfiles.name.equalsIgnoreCase(name) && e.decrypt(containsProfiles.pin, sk).equals(pin))) {
-        		            System.out.println("Returning Profile");
-        		            System.out.println(containsProfiles);
-        		            
-        		            returning = true;
-        		            break;
-        		        }
-        		    }
-        		} catch (EOFException error) {} catch (IOException | ClassNotFoundException error) {error.printStackTrace();}
-        	}catch(Exception error){System.out.println(error.getMessage());}
-        }catch(Exception error) {System.out.println("Making Profiledata.bin");}
-        if(returning == true){System.out.println("Welcome Back " + name + "!");profileDatabase = containsProfiles.getDatabase(); System.out.println("containsProfiles: " + containsProfiles.getDatabase());}
-        else if(returning != true){
-            System.out.println("--New Profile--");
-            try {
-            	profileDatabase = new Database();
-                newProfile();
-                
-                
-            } catch (IOException e1) {
-                System.out.println("An error occurred.");
-                e1.printStackTrace();
-            }
-        }
-
-        return this;
-    }
-
-    private void newProfile() throws Exception{
-    			System.out.println("Name: " + name + " | " + pin);
-    			Encrypter e = new Encrypter();
-    			pin = e.encrypt(pin);
-    			Serializer.serialize(e.secretKey);
-    			pinKey = e.secretKey;
-                Serializer.serialize(this);
-                System.out.println("Successfully Serialized and Encrypted.");
-    }
+//    public Profile findProfile(String name, String pin) throws Exception {
+//        this.name = name;
+//        this.pin = pin;
+//
+//        Encrypter e = new Encrypter();
+//
+//        boolean returning = false;
+//
+//        try (ObjectInputStream ois1 = new ObjectInputStream(new FileInputStream("Profiledata.bin"))) {
+//        	System.out.println("test: " + ois1);
+//            while (true) {
+//                try {
+//                    Profile containsProfiles = (Profile) ois1.readObject();
+//                    System.out.println("test: " + containsProfiles);
+//                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("SKdata.bin"))) {
+//                        while (true) {
+//                        	
+//                            SecretKey sk = (SecretKey) ois.readObject();
+//                            System.out.println("testing!" + (containsProfiles.name.equalsIgnoreCase(name) && e.decrypt(containsProfiles.pin, sk).equals(pin)));
+//                            if (sk == null) {
+//                                break;
+//                            }
+//                            if ((containsProfiles.name.equalsIgnoreCase(name) && e.decrypt(containsProfiles.pin, sk).equals(pin))) {
+//                                System.out.println("Returning Profile");
+//                                System.out.println(containsProfiles);
+//
+//                                returning = true;
+//                                profileDatabase = containsProfiles.getDatabase();
+//                                break;
+//                            }
+//                            System.out.println(returning);
+//                        }
+//                    } catch (EOFException error) {
+//                    	System.out.println("error1");
+//                        // ignore EOFException, since it just means we've reached the end of the file
+//                    } catch (IOException | ClassNotFoundException error) {
+//                    	
+//                        error.printStackTrace();
+//                    }
+//                } catch (EOFException error) {
+//                    // ignore EOFException, since it just means we've reached the end of the file
+//                	System.out.println("error2");
+//                    break;
+//                }
+//            }
+//        } catch (IOException error) {
+//            System.out.println("An error occurred while reading profile data.");
+//            error.printStackTrace();
+//        }
+//
+//        if (returning == true) {
+//            System.out.println("Welcome Back " + name + "!");
+//            System.out.println("containsProfiles: " + profileDatabase);
+//        } else {
+//            System.out.println("--New Profile--");
+//            try {
+//                profileDatabase = new Database();
+//                newProfile();
+//            } catch (IOException error) {
+//                System.out.println("An error occurred.");
+//                error.printStackTrace();
+//            }
+//        }
+//        System.out.println("test: end");
+//        return this;
+//    }
+//
+//    private void newProfile() throws Exception{
+//    			System.out.println("Name: " + name + " | " + pin);
+//    			Encrypter e = new Encrypter();
+//    			pin = e.encrypt(pin);
+//    			Serializer.serialize(e.secretKey);
+//    			pinKey = e.secretKey;
+//                Serializer.serialize(this);
+//                System.out.println("Successfully Serialized and Encrypted.");
+//    }
     
     public Database getDatabase(){
         return profileDatabase;

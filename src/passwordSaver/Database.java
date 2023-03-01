@@ -7,6 +7,7 @@ public class Database implements Serializable{
 	public ArrayList<PProfile> database = new ArrayList<>();
     
     public Database(){}
+    public Database(Database d){database = d.database;}
     
     public void add(PProfile pp){database.add(pp);}
     

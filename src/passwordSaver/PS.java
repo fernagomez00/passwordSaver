@@ -8,7 +8,7 @@ public class PS implements Serializable{
 	
 	
 	private static final long serialVersionUID = 1L;
-	static Profile profile = new Profile(); //this class will be used to run the program | GUI implementation later if wanted	
+	public static Profile profile = new Profile(); //this class will be used to run the program | GUI implementation later if wanted	
 	public static void login() throws Exception {
 		String name;
 		String pin;
@@ -17,7 +17,7 @@ public class PS implements Serializable{
 		name = sc.next();
 		System.out.print("Please input pin: ");
 		pin = sc.next();
-		profile = profile.findProfile(name, pin);
+		profile = PPwizard.findProfile(name, pin);
 		menu();
 	}
 	
@@ -67,8 +67,8 @@ public class PS implements Serializable{
 			saved.pin = e.encrypt(profile.pin);
 			Serializer.serialize(e.secretKey);
 			saved.name = profile.name;
-			saved.getDatabase().database = profile.getDatabase().database;
-			Serializer.updateProfile(profile, saved);
+			saved.getDatabase().database = PPwizard.profile.getDatabase().database;
+			PPwizard.updateProfile(profile, saved);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

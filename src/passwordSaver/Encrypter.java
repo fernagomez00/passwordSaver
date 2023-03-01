@@ -16,7 +16,7 @@ public class Encrypter{
         this.toBeEncrypted = toBeEncrypted;
         try{
             Encrypted = encrypt(this.toBeEncrypted.password);
-//            System.out.println("Encrypted Password: " + toBeEncrypted.password + " -- Encrypted: " + Encrypted);
+            System.out.println("Encrypted Password: " + toBeEncrypted.password + " -- Encrypted: " + Encrypted);
             toBeEncrypted.password = Encrypted;
             toBeEncrypted.setKey(secretKey);
             
