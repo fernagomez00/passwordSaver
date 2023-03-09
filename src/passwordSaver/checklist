@@ -1,2 +1,0 @@
-need to fix serialization currently getting bad keys so decryption is not working when looking for returning profiles [not done]
-potentially think about adding a password strength generator [not done]
