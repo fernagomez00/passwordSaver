@@ -11,15 +11,16 @@ import java.io.ObjectOutputStream;
 public class PPwizard {
 	
 	
-	public static boolean returningProfile(Profile p) {
+	public static boolean returningProfile(Profile p) throws Exception {
 		boolean returning = false;
 		
 		try {
 	        ObjectInputStream in = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir")+"\\Profiledata.bin"));
 	        Profile storedProfile = (Profile) in.readObject();
 	        in.close();
-	        
-	        if (p.equals(storedProfile)) {
+	        System.out.println("Findprofile test: " + (p.username.equals(storedProfile.username) && Encrypter.decrypt(p.pin).equals(Encrypter.decrypt(storedProfile.pin))));
+	        if (p.username.equals(storedProfile.username) && Encrypter.decrypt(p.pin).equals(Encrypter.decrypt(storedProfile.pin))) {
+	        	p.data = storedProfile.data;
 	            returning = true;
 	        }
 	    } catch (IOException | ClassNotFoundException e) {}
@@ -36,7 +37,7 @@ public class PPwizard {
 
         try {
             // Open the input stream for reading the original profile data
-            in = new ObjectInputStream(new FileInputStream(System.getProperty(null)"Profiledata.bin"));
+            in = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir")+"\\Profiledata.bin"));
 
             // Open the output stream for writing the updated profile data to a temporary file
             out = new ObjectOutputStream(new FileOutputStream(tempFile));
@@ -72,7 +73,7 @@ public class PPwizard {
         }
 
         // Delete the original profile data file
-        File originalFile = new File("ProfileData.bin");
+        File originalFile = new File(System.getProperty("user.dir")+"\\ProfileData.bin");
         originalFile.delete();
 
         // Rename the temporary file to the original file name
@@ -80,9 +81,9 @@ public class PPwizard {
         System.out.println("updated profile: " + newProfile);
     }
 	
-	private static void newProfile(String name, String pin) throws Exception{
+	public static void newProfile(String name, String pin) throws Exception{
 		Profile profile = new Profile(name, new Password(pin), new Database());
-		System.out.println("Name: " + profile.username + " | " + profile.pin);
+		System.out.println("New Name: " + profile.username + " | " + profile.pin);
         Serializer.serialize(profile);
         PS.profile=profile;
         System.out.println("Successfully Serialized and Encrypted.");

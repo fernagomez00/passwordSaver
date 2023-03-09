@@ -53,11 +53,9 @@ public class PS{
 		System.out.print("Enter password for account: ");
 		password = sc.next();
 		
-		Encrypter e = new Encrypter();
-		e.encrypt(password);
-		Password n = new Password(password, e.secretKey);
+		Password n = new Password(password);
 		
-		PProfile newpprofile = new PProfile(url, username, password, null);
+		PProfile newpprofile = new PProfile(url, username, n.password, n.key);
 		profile.data.add(newpprofile);
 		
 		
@@ -67,10 +65,10 @@ public class PS{
 	@SuppressWarnings("static-access")
 	private static void saveProfile() {
 		try {
-			Encrypter e = new Encrypter();
+			
 			Profile saved = new Profile(); 
-			e.encrypt(profile.pin);
 			saved.username = profile.username;
+			saved.pin = profile.pin;
 			saved.getDatabase().data = profile.getDatabase().data;
 			Serializer.serialize(saved);
 			

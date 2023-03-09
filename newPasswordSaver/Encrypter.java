@@ -13,7 +13,7 @@ public class Encrypter{
     private Password toBeEncrypted;
     private String Encrypted = "";
     private static final String ALGORITHM = "AES";
-    private static final int KEY_SIZE = 128;
+    private static final int KEY_SIZE = 256;
     public SecretKey secretKey;
     
     public Encrypter(Password toBeEncrypted){
@@ -21,7 +21,7 @@ public class Encrypter{
         
         try{
             Encrypted = encrypt(this.toBeEncrypted.password);
-            System.out.println("Encrypted Password: " + toBeEncrypted.password + " -- Encrypted: " + Encrypted);
+//            System.out.println("Encrypted Password: " + toBeEncrypted.password + " -- Encrypted: " + Encrypted);
             toBeEncrypted.password = Encrypted;
             toBeEncrypted.key = secretKey;
             toBeEncrypted.encrypted = true;
@@ -42,8 +42,8 @@ public class Encrypter{
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             byte[] encryptedBytes = cipher.doFinal(plainText.password.getBytes());
-            System.out.println(secretKey + " | " + encryptedBytes);
-    	}
+//            System.out.println(secretKey + " | " + encryptedBytes);
+    	}else {System.out.println("already encrypted");}
     }
 
     public String encrypt(String plainText) throws Exception {
@@ -53,7 +53,7 @@ public class Encrypter{
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
-        System.out.println(secretKey + " | " + encryptedBytes);
+//        System.out.println(secretKey + " | " + encryptedBytes);
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
     
@@ -74,12 +74,12 @@ public class Encrypter{
         return new String(decryptedBytes);
     }
 
-	public String decrypt(Password encryptedText) throws Exception {
+	public static String decrypt(Password encryptedText) throws Exception {
 		Cipher cipher = Cipher.getInstance(ALGORITHM);
 		cipher.init(Cipher.DECRYPT_MODE, encryptedText.key);
 		byte[] encryptedBytes = Base64.getDecoder().decode(encryptedText.password);
 		byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
-		System.out.println("Decryptedbytes: "+new String(decryptedBytes));
+//		System.out.println("Decryptedbytes: "+new String(decryptedBytes));
 		encryptedText.encrypted = false;
 		return new String(decryptedBytes);
     }

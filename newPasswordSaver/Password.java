@@ -19,9 +19,7 @@ public class Password implements Serializable{
 		key = e.secretKey;
 	}
 	
-	private void setKey(SecretKey sk) {key = sk;}
-	
 	public String toString() {
-		return password + "| key: " + key;
+		return password;
 	}
 }
