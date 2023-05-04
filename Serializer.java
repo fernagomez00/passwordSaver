@@ -17,25 +17,30 @@ public class Serializer {
 	 */
     public static void serialize(Profile p) throws IOException{
     	try {profiles.mkdir();}catch(Exception e) {System.out.println(e.getMessage());}
-    	
-        FileOutputStream fout=new FileOutputStream(profiles+"\\"+p.username +"Profiledata.bin");
+        FileOutputStream fout=new FileOutputStream(profiles+"\\" + p.uuid +"-Profiledata.bin");
         ObjectOutputStream out=new ObjectOutputStream(fout);
         out.writeObject(p);
         out.flush();
         out.close();
+        System.out.println("Successfully Serialized!");
     }
     
-    /**
-     * 
-     * @param name (Profile name)
-     * @return the Profile
-     * @throws ClassNotFoundException
-     * @throws IOException
-     */
-    static Profile readProfileDatabin(String name) throws ClassNotFoundException, IOException{
-        ObjectInputStream in=new ObjectInputStream(new FileInputStream(System.getProperty("user.dir")+ "\\"+ name +"Profiledata.bin"));
-        Profile p = (Profile)in.readObject();
-        System.out.println("Serializer: "+p.username+" | "+p.pin);
+    private static int currentFileIndex = 0;
+
+    static Profile readProfileDatabin() throws ClassNotFoundException, IOException {
+        File[] files = profiles.listFiles();
+        if(files == null) {
+        	return null;
+        }
+        if (currentFileIndex >= files.length) {
+        	currentFileIndex = 0;
+            return null; // no more profiles to read
+        }
+        File file = files[currentFileIndex];
+        currentFileIndex++;
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+        Profile p = (Profile) in.readObject();
+        System.out.println("Serializer: " + p.username + " | " + p.pin);
         in.close();
         return p;
     }

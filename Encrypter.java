@@ -14,7 +14,7 @@ public class Encrypter{
     private String Encrypted = "";
     private static final String ALGORITHM = "AES";
     private static final int KEY_SIZE = 256;
-    public SecretKey secretKey;
+    public static SecretKey secretKey;
     
     public Encrypter(Password toBeEncrypted){
         this.toBeEncrypted = toBeEncrypted;
@@ -57,7 +57,7 @@ public class Encrypter{
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
     
-    public String decrypt(String encryptedText, SecretKey secretKey) throws Exception {
+    public static String decrypt(String encryptedText, SecretKey secretKey) throws Exception {
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
         byte[] encryptedBytes = Base64.getDecoder().decode(encryptedText);
@@ -65,10 +65,9 @@ public class Encrypter{
         return new String(decryptedBytes);
     }
     
-    public String decrypt(String encryptedText) throws Exception {
+    public static String decrypt(String encryptedText) throws Exception {
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
-
         byte[] encryptedBytes = Base64.getDecoder().decode(encryptedText);
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
         return new String(decryptedBytes);

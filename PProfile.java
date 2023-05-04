@@ -19,7 +19,7 @@ public class PProfile extends Password implements Serializable{
 	 */
 	public PProfile(String username, String name, String password, SecretKey sk) {super(password, sk);name_url = name;this.username = username;}
 	
-	public String toString() {String passwordStrength = "";try {passwordStrength = Encrypter.decrypt(super.retPassword());} catch (Exception e) {e.printStackTrace();} return "URL: "+name_url+ " | Username: " + username + " | Password: "+super.password + " | Password Strength ==> " + PasswordFeatures.getPasswordStrength(passwordStrength) + "/100";}
+	public String toString() {String passwordStrength = "";try {passwordStrength = Encrypter.decrypt(super.retPassword());} catch (Exception e) {e.printStackTrace();} return "Name/URL/Software/Game: "+name_url+ " | Username: " + username + " | Password (Encrypted): "+super.password + " | Password Strength: " + PasswordFeatures.getPasswordStrength(passwordStrength) + "/100";}
 	
 	
 }
