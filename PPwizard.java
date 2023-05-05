@@ -1,7 +1,9 @@
 package v2;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
-import java.util.Scanner;
 
 
 public class PPwizard {
@@ -33,6 +35,12 @@ public class PPwizard {
 	    } catch (IOException | ClassNotFoundException e) {}
 		System.out.println("RETURING PROFILE = " + returning);
 		return returning;
+	}
+	
+	public static void copytoClipboard(String s) {
+		StringSelection selection = new StringSelection(s);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, null);
 	}
 	
 	public static void newPProfile(Profile profile, String username, String url, String n) throws Exception {

@@ -8,7 +8,7 @@ public class PasswordFeatures{
     private static final char[] specialchars = {'!','@','#','$','%','^','&','*','(',')'};
     private static final HashMap<char[], Integer> passwordStrength = new HashMap<>();
     
-    public static String generateStrongPassword() throws Exception{Password ret;StringBuilder sb = new StringBuilder();for(int i =0; i < 5; i++){sb.append(upperchars[(int)(Math.random()*upperchars.length)]);sb.append(lowerchars[(int)(Math.random()*lowerchars.length)]);sb.append(numericalchars[(int)(Math.random()*numericalchars.length)]);sb.append(specialchars[(int)(Math.random()*specialchars.length)]);}ret = new Password(sb.toString());return Encrypter.decrypt(ret) + " | Password Strength: " + getPasswordStrength(Encrypter.decrypt(ret));}
+    public static String generateStrongPassword() throws Exception{Password ret;StringBuilder sb = new StringBuilder();for(int i =0; i < 5; i++){sb.append(upperchars[(int)(Math.random()*upperchars.length)]);sb.append(lowerchars[(int)(Math.random()*lowerchars.length)]);sb.append(numericalchars[(int)(Math.random()*numericalchars.length)]);sb.append(specialchars[(int)(Math.random()*specialchars.length)]);}ret = new Password(sb.toString());return Encrypter.decrypt(ret);}
     
     public static int getPasswordStrength(String password){initializeHashMap();int rating = 0;for(int i = 0; i < password.length(); i++){char c = password.charAt(i);if(check(lowerchars, c) == true) {rating+= passwordStrength.get(lowerchars);}if(check(upperchars, c) == true) {rating+= passwordStrength.get(upperchars);}if(check(numericalchars, c) == true) {rating+= passwordStrength.get(numericalchars);}if(check(specialchars, c) == true) {rating+= passwordStrength.get(specialchars);}}return rating;}
     

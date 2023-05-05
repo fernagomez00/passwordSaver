@@ -41,6 +41,7 @@ public class GUI extends JFrame{
 	private JButton newPProfile = new JButton("New Password Profile");
 	private JButton generatePassword =  new JButton("Generate Max Strength Random Password (plus copy to clipboard)");
 	
+	
 	private JScrollPane scrollpane;
 	
 	public static Profile profile;
@@ -51,7 +52,7 @@ public class GUI extends JFrame{
 	 */
 	public GUI() throws IOException {
 		
-		ImageIcon icon = new ImageIcon("ps.png");
+		ImageIcon icon = new ImageIcon(System.getProperty("user.dir")+"\\ps.png");
 		
 		createLoginPanels();
 		
@@ -121,6 +122,14 @@ public class GUI extends JFrame{
 				try {newPProfile();} catch (Exception e1) {e1.printStackTrace();}
 			}
 		});
+		generatePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String password = "";
+				try {password = PasswordFeatures.generateStrongPassword();} catch (Exception e1) {e1.printStackTrace();}
+				PPwizard.copytoClipboard(password);
+				JOptionPane.showMessageDialog(null, password + " is your generated password! It has been copied to your clipboard!");
+			}
+		});
 	}
 	
 	/**
@@ -142,7 +151,8 @@ public class GUI extends JFrame{
                     
                     PProfile selectedItem = (PProfile)list.getSelectedValue();
                     try {
-						JOptionPane.showMessageDialog(null, "You selected " + selectedItem.name_url + " the password is = " + Encrypter.decrypt(selectedItem.password, selectedItem.key));
+                    	PPwizard.copytoClipboard(Encrypter.decrypt(selectedItem.password, selectedItem.key));
+						JOptionPane.showMessageDialog(null, "You selected " + selectedItem.name_url + " the password is : " + Encrypter.decrypt(selectedItem.password, selectedItem.key) + "\nPassword is copied to your Clipboard!");
 					} catch (HeadlessException e1) {
 						e1.printStackTrace();
 					} catch (Exception e1) {
@@ -161,7 +171,7 @@ public class GUI extends JFrame{
 	
 	private void createContainer() {
 		Container = getContentPane();
-		Container.setLayout(new BoxLayout(Container, BoxLayout.PAGE_AXIS));
+		Container.setLayout(new BoxLayout(Container, BoxLayout.Y_AXIS));
 		Container.add(MainPanel);
 		Container.add(new JSeparator());
 		Container.add(ButtonPanel);
@@ -239,9 +249,6 @@ public class GUI extends JFrame{
 		password.setColumns(10);
 		ButtonPanel = new JPanel();
 		ButtonPanel.setLayout(new BoxLayout(ButtonPanel, BoxLayout.LINE_AXIS));
-		ButtonPanel.setAlignmentX(CENTER_ALIGNMENT);
-		signup.setAlignmentX(signup.CENTER_ALIGNMENT);
-		login.setAlignmentX(login.CENTER_ALIGNMENT);
 		ButtonPanel.add(login);
 		ButtonPanel.add(signup);
 		createContainer();
