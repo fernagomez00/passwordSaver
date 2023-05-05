@@ -1,4 +1,4 @@
-package v1;
+package v2;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -15,14 +15,15 @@ public class PPwizard {
 	        while(true) {
 	        	Profile storedProfile = Serializer.readProfileDatabin();
 	        	try {
-					if(Serializer.profiles.listFiles().length == count || storedProfile == null) {
+					if(Serializer.profiles.listFiles().length <= count || storedProfile == null) {
 						break;
 					}else {count++;}
 					
 					if (p.username.equals(storedProfile.username) && Encrypter.decrypt(p.pin).equals(Encrypter.decrypt(storedProfile.pin)) ) {
 						System.out.println(storedProfile);
 						p.data = storedProfile.data;
-						System.out.println(storedProfile.getDatabase());
+						p.uuid = storedProfile.uuid;
+						System.out.println("PPwizard: "+ storedProfile.getDatabase());
 					    returning = true;
 					}
 				} catch (Exception e) {
@@ -44,12 +45,7 @@ public class PPwizard {
 	@SuppressWarnings("static-access")
 	public static void saveProfile(Profile profile) throws InterruptedException, IOException {
 		try {
-			
-			Profile saved = new Profile(); 
-			saved.username = profile.username;
-			saved.pin = profile.pin;
-			saved.getDatabase().data = profile.getDatabase().data;
-			Serializer.serialize(saved);
+			Serializer.serialize(profile);
 			System.out.println("Saved Profile!");
 			
 		} catch (IOException e) {

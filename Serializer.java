@@ -1,4 +1,4 @@
-package v1;
+package v2;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -40,7 +40,7 @@ public class Serializer {
         currentFileIndex++;
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
         Profile p = (Profile) in.readObject();
-        System.out.println("Serializer: " + p.username + " | " + p.pin);
+        System.out.println("Serializer: " + p.username + " | " + p.pin + " | " + p.uuid);
         in.close();
         return p;
     }

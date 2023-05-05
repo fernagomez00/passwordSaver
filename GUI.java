@@ -1,9 +1,12 @@
-package v1;
+package v2;
 
 import java.awt.Container;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import javax.swing.ImageIcon;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,6 +39,7 @@ public class GUI extends JFrame{
 	private JButton signup = new JButton("Sign Up");
 	
 	private JButton newPProfile = new JButton("New Password Profile");
+	private JButton generatePassword =  new JButton("Generate Max Strength Random Password (plus copy to clipboard)");
 	
 	private JScrollPane scrollpane;
 	
@@ -43,10 +47,15 @@ public class GUI extends JFrame{
 	/**
 	 * Calls and completes the initialization process for the Frame, and packs/makes the frame visible
 	 * @param Game
+	 * @throws IOException 
 	 */
-	public GUI() {
-
+	public GUI() throws IOException {
+		
+		ImageIcon icon = new ImageIcon("ps.png");
+		
 		createLoginPanels();
+		
+		frame.setIconImage(icon.getImage());
 		
 		frameFinalization();
 	}
@@ -69,7 +78,7 @@ public class GUI extends JFrame{
 		login.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(username.getText() + " | " + password.getText());
+				
 				try {
 					profile = new Profile(username.getText(), new Password(password.getText()), new Database());
 					if(PPwizard.returningProfile(profile) == true) {
@@ -84,7 +93,6 @@ public class GUI extends JFrame{
 						System.out.println("Profile not found!");
 					}
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -146,6 +154,7 @@ public class GUI extends JFrame{
 		scrollpane = new JScrollPane(list);
 		MainPanel.add(scrollpane);
 		ButtonPanel.add(newPProfile);
+		ButtonPanel.add(generatePassword);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -171,20 +180,43 @@ public class GUI extends JFrame{
 	
 	private void newUser() throws Exception {
 		frame.setVisible(false);
-		String response1 = JOptionPane.showInputDialog("Welcome new Profile! Please enter the first Password Profile for your Database!\nStarting with the name of the website or entity in which the password and profile are stored.");
-		String response2 = JOptionPane.showInputDialog("Please enter the username for " + response1 );
-		String response3 = JOptionPane.showInputDialog("Please enter password for " + response1 );
+		
+		String response1;
+		String response2;
+		String response3;
+		
+		while (true) {
+			response1 = JOptionPane.showInputDialog("Welcome new Profile! Please enter the first Password Profile for your Database!\nStarting with the name of the website or entity in which the password and profile are stored.");
+			response2 = JOptionPane.showInputDialog("Please enter the username for " + response1);
+			response3 = JOptionPane.showInputDialog("Please enter password for " + response1);
+			if(response1 == null || response2 == null || response3 == null) {
+				JOptionPane.showMessageDialog(null, "Invalid Inputs Please re-enter valid inputs");
+			}else {
+				break;
+			}
+		}
 		
 		PPwizard.newPProfile(profile, response2, response1, response3);
 		PPwizard.saveProfile(profile);
+		createLoggedInContainer();
 	}
 	
 	private void newPProfile() throws Exception {
 		
-		String response1 = JOptionPane.showInputDialog("Please enter name/url/game/software for the password profile.");
-		String response2 = JOptionPane.showInputDialog("Please enter the username for " + response1 );
-		String response3 = JOptionPane.showInputDialog("Please enter password for " + response1 );
+		String response1;
+		String response2;
+		String response3;
 		
+		while (true) {
+			response1 = JOptionPane.showInputDialog("Please enter name/url/game/software for the password profile.");
+			response2 = JOptionPane.showInputDialog("Please enter the username for " + response1);
+			response3 = JOptionPane.showInputDialog("Please enter password for " + response1);
+			if (response1 == null || response2 == null || response3 == null) {
+				JOptionPane.showMessageDialog(null, "Invalid Inputs Please re-enter valid inputs");
+			}else {
+				break;
+			}
+		}
 		PPwizard.newPProfile(profile, response2, response1, response3);
 		PPwizard.saveProfile(profile);
 		createLoggedInContainer();
@@ -207,6 +239,9 @@ public class GUI extends JFrame{
 		password.setColumns(10);
 		ButtonPanel = new JPanel();
 		ButtonPanel.setLayout(new BoxLayout(ButtonPanel, BoxLayout.LINE_AXIS));
+		ButtonPanel.setAlignmentX(CENTER_ALIGNMENT);
+		signup.setAlignmentX(signup.CENTER_ALIGNMENT);
+		login.setAlignmentX(login.CENTER_ALIGNMENT);
 		ButtonPanel.add(login);
 		ButtonPanel.add(signup);
 		createContainer();
