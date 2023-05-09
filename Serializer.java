@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 
 public class Serializer {
 	
-	public static final File profiles = new File(System.getProperty("user.dir")+"\\Profiles");
+	public static final File profiles = new File(System.getProperty("user.dir")+File.separator+"Profiles");
 	
 	/**
 	 * 
@@ -17,7 +17,7 @@ public class Serializer {
 	 */
     public static void serialize(Profile p) throws IOException{
     	try {profiles.mkdir();}catch(Exception e) {System.out.println(e.getMessage());}
-        FileOutputStream fout=new FileOutputStream(profiles+"\\" + p.uuid +"-Profiledata.bin");
+        FileOutputStream fout=new FileOutputStream(profiles+ File.separator + p.uuid +"-Profiledata.bin");
         ObjectOutputStream out=new ObjectOutputStream(fout);
         out.writeObject(p);
         out.flush();

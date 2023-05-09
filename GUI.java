@@ -107,6 +107,7 @@ public class GUI extends JFrame{
 					if(PPwizard.returningProfile(new Profile(username.getText(), new Password(password.getText()), new Database())) == false) {
 						System.out.println("Profile not found, creating new profile!");
 						PPwizard.saveProfile(profile);
+						newUser();
 					}else {
 						JOptionPane.showMessageDialog(null, "Profile already created! Please choose different credentials!");
 						username.setText("");
